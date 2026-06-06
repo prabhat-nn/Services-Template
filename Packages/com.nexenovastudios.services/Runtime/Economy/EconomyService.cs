@@ -117,7 +117,6 @@ namespace Nexenova.Services.Economy
             if (guard != null)
                 return ServiceResult<CurrencyBalance>.Failure(guard);
 
-            // Fail fast against the cache; the server still enforces the real balance.
             if (_balanceCache.TryGetValue(currencyId, out var cached) && cached < amount)
                 return ServiceResult<CurrencyBalance>.Failure(ServiceError.Validation(
                     $"Insufficient '{currencyId}': have {cached}, need {amount}."));
@@ -144,7 +143,6 @@ namespace Nexenova.Services.Economy
             }
             else if (result.Error.Code == ServiceErrorCode.Validation)
             {
-                // Server says the cache lied (tampering or stale) — re-sync.
                 await FetchBalancesAsync(ct);
             }
 
@@ -197,7 +195,6 @@ namespace Nexenova.Services.Economy
             }, ct);
         }
 
-        // ── internals ──────────────────────────────────────────────────────
 
         private async UniTask<ServiceResult<CurrencyBalance>> GrantCoreAsync(
             string currencyId, long amount, TransactionReason reason, CancellationToken ct)

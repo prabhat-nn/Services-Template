@@ -115,11 +115,9 @@ namespace Nexenova.Services.Purchasing
             return _store.RestoreAsync(ct);
         }
 
-        // ── pipeline ───────────────────────────────────────────────────────
 
         private async UniTask<ServiceResult<Unit>> ProcessPendingPurchaseAsync(PendingPurchase pending, CancellationToken ct)
         {
-            // 1. Receipt validation — failure means no grant, no confirmation, ever.
             var validation = await _validator.ValidateAsync(pending.ToReceipt(), ct);
             if (validation.IsFailure)
             {
@@ -130,7 +128,6 @@ namespace Nexenova.Services.Purchasing
 
             var grantsJson = _grantsByProduct.TryGetValue(pending.ProductId, out var grants) ? grants : "[]";
 
-            // 2. Hand off to the grant pipeline (Economy subscribes via the event bus).
             if (!_options.AwaitGrantProcessing)
             {
                 _events.Publish(new PurchaseCompletedEvent(pending.ProductId, pending.TransactionId, grantsJson));
@@ -164,7 +161,6 @@ namespace Nexenova.Services.Purchasing
                 return ServiceResult.Fail(ServiceErrorCode.ProviderError, "Purchase grants failed; they will retry on next launch.");
             }
 
-            // 3. Grants applied — finalize with the store.
             pending.Confirm();
             _logger.Info(Tag, $"Purchase '{pending.ProductId}' completed and confirmed.");
             return ServiceResult.Ok();

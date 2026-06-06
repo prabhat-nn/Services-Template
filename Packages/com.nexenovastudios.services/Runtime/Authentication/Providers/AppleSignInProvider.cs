@@ -58,7 +58,6 @@ namespace Nexenova.Services.Authentication
                         code, $"Apple sign-in failed ({error.GetAuthorizationErrorCode()}).")));
                 });
 
-            // Pump the native message queue until the login completes.
             while (tcs.Task.Status == UniTaskStatus.Pending)
             {
                 ct.ThrowIfCancellationRequested();

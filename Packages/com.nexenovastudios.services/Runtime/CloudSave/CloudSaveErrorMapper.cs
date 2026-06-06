@@ -12,8 +12,6 @@ namespace Nexenova.Services.CloudSave
             switch (ex)
             {
                 case CloudSaveException cse:
-                    // Reason names matched as strings so the mapping stays stable across
-                    // minor SDK enum revisions; unmatched reasons map to ProviderError.
                     return cse.Reason.ToString() switch
                     {
                         "Conflict" or "ConflictError"

@@ -68,7 +68,6 @@ namespace Nexenova.Services.Authentication
             }
             else
             {
-                // Anonymous sign-in resumes the cached session when one exists.
                 result = await SignInAnonymouslyAsync(ct);
             }
 
@@ -216,7 +215,6 @@ namespace Nexenova.Services.Authentication
             if (!_initialized)
                 return;
 
-            // Recover the session in the background; failures are logged inside the call.
             UniTask.Void(async () =>
             {
                 _logger.Warning(Tag, "Session expired — attempting automatic re-sign-in.");

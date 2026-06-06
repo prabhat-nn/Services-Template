@@ -80,7 +80,6 @@ namespace Nexenova.Services
         [Tooltip("Validate receipts locally with Unity IAP obfuscated tangles (Android/iOS release builds).")]
         [SerializeField] private bool useLocalReceiptValidation = true;
 
-        // ── Read accessors ──────────────────────────────────────────────────
 
         public string ProductionEnvironment => productionEnvironment;
         public string EditorEnvironment => editorEnvironment;

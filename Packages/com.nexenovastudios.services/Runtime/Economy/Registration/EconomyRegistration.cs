@@ -18,7 +18,7 @@ namespace Nexenova.Services.Economy
                 .As<IEconomyService>()
                 .As<IServiceModule>()
                 .As<IDynamicEconomyCaps>()
-                .AsSelf(); // resolved concretely by the grant processor (same module)
+                .AsSelf();
 
             builder.RegisterEntryPoint<IapGrantProcessor>();
 

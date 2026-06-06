@@ -69,7 +69,7 @@ namespace Nexenova.Services.Tests
             using var cts = new CancellationTokenSource();
             cts.Cancel();
 
-            Assert.ThrowsAsync<System.OperationCanceledException>(async () =>
+            Assert.CatchAsync<System.OperationCanceledException>(async () =>
                 await policy.ExecuteAsync<int>("op", _ => UniTask.FromResult(ServiceResult<int>.Success(1)), cts.Token));
         }
     }

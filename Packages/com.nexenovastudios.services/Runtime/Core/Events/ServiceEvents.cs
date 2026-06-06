@@ -2,7 +2,6 @@
 
 namespace Nexenova.Services
 {
-    // ── Bootstrap ───────────────────────────────────────────────────────────
 
     /// <summary>All required services initialized; optional failures listed in IServicesBootstrap.FailedModules.</summary>
     public readonly struct ServicesReadyEvent : IServiceEvent
@@ -23,7 +22,6 @@ namespace Nexenova.Services
         }
     }
 
-    // ── Authentication ──────────────────────────────────────────────────────
 
     public readonly struct PlayerSignedInEvent : IServiceEvent
     {
@@ -40,7 +38,6 @@ namespace Nexenova.Services
 
     public readonly struct SessionExpiredEvent : IServiceEvent { }
 
-    // ── Economy ─────────────────────────────────────────────────────────────
 
     public readonly struct CurrencyBalanceChangedEvent : IServiceEvent
     {
@@ -57,7 +54,6 @@ namespace Nexenova.Services
         }
     }
 
-    // ── Cloud Save ──────────────────────────────────────────────────────────
 
     public readonly struct CloudDataSavedEvent : IServiceEvent
     {
@@ -71,11 +67,9 @@ namespace Nexenova.Services
         public CloudDataConflictDetectedEvent(string key) { Key = key; }
     }
 
-    // ── Remote Config ───────────────────────────────────────────────────────
 
     public readonly struct RemoteConfigFetchedEvent : IServiceEvent { }
 
-    // ── Purchasing ──────────────────────────────────────────────────────────
 
     /// <summary>
     /// Receipt validated; grant content should now be applied.

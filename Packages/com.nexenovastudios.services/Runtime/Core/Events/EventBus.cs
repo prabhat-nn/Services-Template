@@ -19,7 +19,6 @@ namespace Nexenova.Services.Core
             if (!_handlers.TryGetValue(typeof(TEvent), out var list) || list.Count == 0)
                 return;
 
-            // Snapshot so handlers can subscribe/unsubscribe during publish.
             var snapshot = list.ToArray();
             foreach (var del in snapshot)
             {

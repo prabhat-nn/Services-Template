@@ -25,7 +25,6 @@ namespace Nexenova.Services.RemoteConfig
 
         private struct AppAttributes
         {
-            // ReSharper disable once InconsistentNaming — serialized attribute name in the RC payload.
             public string appVersion;
         }
 

@@ -12,9 +12,6 @@ namespace Nexenova.Services.Economy
             switch (ex)
             {
                 case EconomyException ee:
-                    // Reason names are matched as strings so the mapping stays stable
-                    // across minor SDK enum revisions; unmatched reasons fall through
-                    // to ProviderError (never silently to Network).
                     return ee.Reason.ToString() switch
                     {
                         "InsufficientFunds" or "InvalidArgument" or "ValidationError"

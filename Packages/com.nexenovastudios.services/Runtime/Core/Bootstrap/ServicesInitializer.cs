@@ -49,7 +49,6 @@ namespace Nexenova.Services.Core
 
         public UniTask<ServiceResult<Unit>> InitializeAsync(CancellationToken ct = default)
         {
-            // Single-flight: concurrent/repeat calls share the same boot.
             _inFlight ??= RunAsync(ct).Preserve();
             return _inFlight.Value;
         }
@@ -69,7 +68,6 @@ namespace Nexenova.Services.Core
             State = ServicesState.Initializing;
             _logger.Info(Tag, $"Boot started (environment: {_options.Environment}).");
 
-            // Stage 0 — Platform.
             var platform = await _retry.ExecuteAsync<Unit>(
                 "UnityServices.Initialize",
                 async token =>
@@ -90,7 +88,6 @@ namespace Nexenova.Services.Core
             if (platform.IsFailure)
                 return Fail("UnityServices", platform.Error);
 
-            // Stages 1..3 — modules, sequential by stage, parallel within a stage.
             foreach (var stage in _modules.GroupBy(m => m.Stage).OrderBy(g => g.Key))
             {
                 var results = await UniTask.WhenAll(stage.Select(m => InitializeModuleAsync(m, ct)));
@@ -128,7 +125,6 @@ namespace Nexenova.Services.Core
             }
             catch (Exception ex)
             {
-                // Modules should return failures, never throw — treat an escape as a module bug but stay resilient.
                 _logger.Error(Tag, $"Module '{module.ModuleName}' threw during initialization (modules must return ServiceResult failures).", ex);
                 return ServiceResult.Fail(ServiceErrorCode.Unknown, ex.Message, ex);
             }
@@ -140,8 +136,6 @@ namespace Nexenova.Services.Core
             _failedModules.Add(moduleName);
             _bootError = error;
             _logger.Error(Tag, $"Boot failed at '{moduleName}': {error}", error.Cause);
-            // Complete (not fault) the ready task: an unawaited faulted UniTask would surface
-            // as an unobserved exception at GC. WaitUntilReadyAsync throws based on State.
             _readySource.TrySetResult();
             return ServiceResult.Fail(error);
         }

@@ -103,7 +103,6 @@ namespace Nexenova.Services.Purchasing
 #endif
         }
 
-        // ── IDetailedStoreListener ─────────────────────────────────────────
 
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
@@ -141,12 +140,10 @@ namespace Nexenova.Services.Purchasing
             }
             else
             {
-                // Crash recovery / restore / deferred — delivered outside an active call.
                 _logger.Info(Tag, $"Redelivered transaction for '{pending.ProductId}'.");
                 PendingPurchaseDelivered?.Invoke(pending);
             }
 
-            // Always Pending: confirmation happens only after the grant pipeline succeeds.
             return PurchaseProcessingResult.Pending;
         }
 
@@ -166,7 +163,6 @@ namespace Nexenova.Services.Purchasing
             tcs.TrySetResult(ServiceResult<PendingPurchase>.Failure(MapFailure(failureReason)));
         }
 
-        // ── mapping ────────────────────────────────────────────────────────
 
         private void ClearActivePurchase()
         {

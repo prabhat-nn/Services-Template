@@ -1,11 +1,10 @@
-﻿#nullable enable
+#nullable enable
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Unity.Services.CloudSave.Models;
 using PlayerDeleteOptions = Unity.Services.CloudSave.Models.Data.Player.DeleteOptions;
-// Aliased: our own CloudSaveService in this namespace would otherwise shadow the SDK entry point.
 using UgsCloudSave = Unity.Services.CloudSave.CloudSaveService;
 
 namespace Nexenova.Services.CloudSave

@@ -117,7 +117,7 @@ namespace Nexenova.Services.Tests
             var initializer = Create(new IServiceModule[] { identity });
 
             await initializer.InitializeAsync(CancellationToken.None);
-            await initializer.WaitUntilReadyAsync(CancellationToken.None); // must not hang
+            await initializer.WaitUntilReadyAsync(CancellationToken.None);
 
             Assert.AreEqual(ServicesState.Ready, initializer.State);
         }

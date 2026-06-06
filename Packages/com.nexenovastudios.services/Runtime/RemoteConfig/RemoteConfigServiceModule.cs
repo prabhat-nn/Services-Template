@@ -56,7 +56,6 @@ namespace Nexenova.Services.RemoteConfig
             var fetch = await FetchAsync(ct);
             if (fetch.IsFailure)
             {
-                // Stay degraded with baked-in defaults rather than failing the boot.
                 _logger.Warning(Tag, $"Initial fetch failed ({fetch.Error.Code}) — serving defaults until the next fetch.");
             }
             return ServiceResult.Ok();

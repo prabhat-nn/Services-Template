@@ -1,11 +1,10 @@
-﻿#nullable enable
+#nullable enable
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Unity.Services.Economy;
 using Unity.Services.Economy.Model;
-// Aliased: our own EconomyService in this namespace would otherwise shadow the SDK entry point.
 using UgsEconomy = Unity.Services.Economy.EconomyService;
 
 namespace Nexenova.Services.Economy

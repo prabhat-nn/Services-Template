@@ -157,7 +157,6 @@ namespace Nexenova.Services.CloudSave
             }
         }
 
-        // Keys are validated (no dots/whitespace) but base64 keeps filenames safe regardless.
         private string PathFor(string key) => Path.Combine(_root, Encode(key) + ".json");
 
         private static string Encode(string key) =>

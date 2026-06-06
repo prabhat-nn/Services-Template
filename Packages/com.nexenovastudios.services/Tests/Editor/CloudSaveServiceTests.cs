@@ -159,7 +159,6 @@ namespace Nexenova.Services.Tests
         [Test]
         public async Task InitializeAsync_ReplaysPendingWrites()
         {
-            // Simulate a previous offline session: local data + pending flag, nothing remote.
             var sdk = new FakeCloudSaveSdk();
             var cache = new FakeLocalSaveCache();
             var envelope = new SaveEnvelope { SchemaVersion = 2, SavedAtUnixMs = 0, PayloadJson = "{\"Level\":9}" };

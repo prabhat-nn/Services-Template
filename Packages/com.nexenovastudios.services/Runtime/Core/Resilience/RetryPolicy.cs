@@ -48,8 +48,6 @@ namespace Nexenova.Services.Core
                 ct.ThrowIfCancellationRequested();
 
                 using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-                // Keep the timer handle and stop it before the CTS is disposed — a timer
-                // firing on a disposed source would raise an unobserved exception later.
                 var timeoutTimer = timeoutCts.CancelAfterSlim(_attemptTimeout);
 
                 try
@@ -58,7 +56,7 @@ namespace Nexenova.Services.Core
                 }
                 catch (OperationCanceledException) when (ct.IsCancellationRequested)
                 {
-                    throw; // caller-initiated cancellation always propagates
+                    throw;
                 }
                 catch (OperationCanceledException)
                 {
@@ -89,7 +87,6 @@ namespace Nexenova.Services.Core
 
         private TimeSpan NextDelay(int attempt)
         {
-            // Full jitter: random(0, min(cap, base * 2^attempt))
             var capMs = Math.Min(_maxDelay.TotalMilliseconds, _baseDelay.TotalMilliseconds * Math.Pow(2, attempt));
             return TimeSpan.FromMilliseconds(_random.NextDouble() * capMs);
         }
