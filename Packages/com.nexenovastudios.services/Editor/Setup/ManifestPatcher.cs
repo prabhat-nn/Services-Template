@@ -39,20 +39,16 @@ namespace Nexenova.Services.Editor
 
         public static readonly string[] RequiredScopes =
         {
-            "com.cysharp.unitask",
-            "jp.hadashikick.vcontainer",
             "com.google.play.games",
-            "com.google.external-dependency-manager",
-            "com.lupidan.apple-signin-unity",
-            "com.gitamend.improvedtimers",
         };
 
         public static readonly OptionalPackage[] OptionalPackages =
         {
             new("In-App Purchasing", "com.unity.purchasing", "4.13.2"),
-            new("Google Play Games", "com.google.play.games", "2.1.0", "com.google.external-dependency-manager", "1.2.187"),
-            new("Apple Sign-In", "com.lupidan.apple-signin-unity", "1.5.0"),
-            new("Improved Timers", "com.gitamend.improvedtimers", "1.0.2"),
+            new("Google Play Games", "com.google.play.games", "2.1.0",
+                "com.google.external-dependency-manager", "https://github.com/googlesamples/unity-jar-resolver.git?path=upm"),
+            new("Apple Sign-In", "com.lupidan.apple-signin-unity", "https://github.com/lupidan/apple-signin-unity.git#v1.5.0"),
+            new("Improved Timers", "com.gitamend.improvedtimers", "https://github.com/adammyhre/Unity-Improved-Timers.git"),
             new("Unity Utils", "com.gitamend.unityutils", "https://github.com/adammyhre/Unity-Utils.git"),
         };
 

@@ -10,30 +10,36 @@ Once the package is installed (step 1 below), open **Nexenova ▸ Services Setup
 
 ## 1. Import the package
 
-Copy these into your project's `Packages/manifest.json` (or copy the whole `Packages/com.nexenovastudios.services` folder into your project's `Packages/`):
+All third-party packages install via **pinned git URLs** (no registry, no "missing signature" warnings). Add to your project's `Packages/manifest.json` `dependencies`:
+
+```json
+"com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.11",
+"jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.18.0",
+"com.nexenovastudios.services": "https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.2.0"
+```
+
+UGS packages (Authentication, Economy, Cloud Save, Remote Config, Newtonsoft) resolve automatically from the Unity registry.
+
+Optional per-game packages (or use the Setup Wizard toggles after install):
+
+```json
+"com.unity.purchasing": "4.13.2",
+"com.lupidan.apple-signin-unity": "https://github.com/lupidan/apple-signin-unity.git#v1.5.0",
+"com.google.external-dependency-manager": "https://github.com/googlesamples/unity-jar-resolver.git?path=upm",
+"com.gitamend.improvedtimers": "https://github.com/adammyhre/Unity-Improved-Timers.git",
+"com.gitamend.unityutils": "https://github.com/adammyhre/Unity-Utils.git"
+```
+
+**Google Play Games is the one exception** — it ships no git-installable package, so it needs the OpenUPM registry (the wizard's GPGS toggle adds both automatically):
 
 ```json
 "scopedRegistries": [
-  {
-    "name": "package.openupm.com",
-    "url": "https://package.openupm.com",
-    "scopes": [
-      "com.cysharp.unitask", "jp.hadashikick.vcontainer",
-      "com.google.play.games", "com.google.external-dependency-manager",
-      "com.lupidan.apple-signin-unity", "com.gitamend.improvedtimers"
-    ]
-  }
-]
+  { "name": "package.openupm.com", "url": "https://package.openupm.com", "scopes": ["com.google.play.games"] }
+],
+"dependencies": { "com.google.play.games": "2.1.0" }
 ```
 
-Required dependencies (resolved automatically if you copy the package; otherwise add to `dependencies`): UniTask 2.5.11, VContainer 1.18.0, `com.unity.services.authentication`, `economy`, `cloudsave`, `remote-config`, `com.unity.purchasing` **4.13.2** (not 5.x), and for device sign-in: `com.google.play.games` 2.1.0 + `com.google.external-dependency-manager` (Android), `com.lupidan.apple-signin-unity` 1.5.0 (iOS).
-
-Studio-standard gameplay utilities (used across our projects, not by the services package itself):
-
-```json
-"com.gitamend.improvedtimers": "1.0.2",
-"com.gitamend.unityutils": "https://github.com/adammyhre/Unity-Utils.git"
-```
+GPGS will show a benign "missing signature" warning — Unity only signs its own registry's packages; it is expected and safe.
 
 ## 2. Link the project to UGS
 

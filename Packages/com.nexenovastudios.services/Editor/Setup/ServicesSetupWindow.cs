@@ -54,11 +54,16 @@ namespace Nexenova.Services.Editor
         private StepResult BuildRegistryStep()
         {
             var ok = ManifestPatcher.HasOpenUpmRegistry(ManifestPatcher.Load(), out var missing);
-            return ok
-                ? new StepResult(SetupStatus.Ok, "OpenUPM registry & scopes", "All required scopes present.")
-                : new StepResult(SetupStatus.Missing, "OpenUPM registry & scopes",
-                    $"Missing scopes: {string.Join(", ", missing)}", "Fix",
-                    () => { ManifestPatcher.EnsureOpenUpmRegistry(); RefreshAll(); });
+            if (ok)
+                return new StepResult(SetupStatus.Ok, "OpenUPM registry (GPGS)", "Registry present with required scopes.");
+
+            var gpgsInstalled = _installed.TryGetValue("com.google.play.games", out var value) && value;
+            return gpgsInstalled
+                ? new StepResult(SetupStatus.Missing, "OpenUPM registry (GPGS)",
+                    $"GPGS is installed but the registry is missing scopes: {string.Join(", ", missing)}", "Fix",
+                    () => { ManifestPatcher.EnsureOpenUpmRegistry(); RefreshAll(); })
+                : new StepResult(SetupStatus.Ok, "OpenUPM registry (GPGS)",
+                    "Not needed — only Google Play Games resolves from OpenUPM (added automatically with its toggle).");
         }
 
         private StepResult BuildSettingsStep()
@@ -233,7 +238,8 @@ namespace Nexenova.Services.Editor
             if (!SetupValidators.IsUgsLinked())
                 Debug.LogWarning("[Nexenova.Setup] Link the project to Unity Gaming Services: Project Settings ▸ Services.");
 
-            if (!ManifestPatcher.HasOpenUpmRegistry(ManifestPatcher.Load(), out _))
+            var gpgsInstalled = _installed.TryGetValue("com.google.play.games", out var installed) && installed;
+            if (gpgsInstalled && !ManifestPatcher.HasOpenUpmRegistry(ManifestPatcher.Load(), out _))
                 ManifestPatcher.EnsureOpenUpmRegistry();
             else
                 RefreshAll();
