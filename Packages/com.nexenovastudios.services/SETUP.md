@@ -2,6 +2,10 @@
 
 Get Authentication (anonymous + GPGS/Apple), Economy, Cloud Save, Remote Config and IAP running in a hyper-casual game in ~15 minutes.
 
+## ⚡ Fast path: the Setup Wizard
+
+Once the package is installed (step 1 below), open **Nexenova ▸ Services Setup** and click **Run Full Setup**. It creates the settings asset, generates the boot scene at build index 0, wires `nextSceneName` to your previous first scene, validates the UGS link, and manages optional packages (IAP, GPGS, Apple sign-in, Timers, Utils) via checkboxes. The manual steps below remain as reference and for CI/scripted setups.
+
 ---
 
 ## 1. Import the package

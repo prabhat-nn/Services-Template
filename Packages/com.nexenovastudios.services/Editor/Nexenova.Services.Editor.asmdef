@@ -1,0 +1,20 @@
+{
+    "name": "Nexenova.Services.Editor",
+    "rootNamespace": "Nexenova.Services.Editor",
+    "references": [
+        "VContainer",
+        "Nexenova.Services.Core",
+        "Nexenova.Services"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

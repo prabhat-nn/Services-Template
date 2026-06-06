@@ -12,7 +12,8 @@
         "Nexenova.Services.Economy",
         "Nexenova.Services.CloudSave",
         "Nexenova.Services.RemoteConfig",
-        "Nexenova.Services.Purchasing"
+        "Nexenova.Services.Purchasing",
+        "Nexenova.Services.Editor"
     ],
     "includePlatforms": [
         "Editor"

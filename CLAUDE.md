@@ -47,7 +47,8 @@ Packages/com.nexenovastudios.services/
 │   ├── RemoteConfig/             # Nexenova.Services.RemoteConfig.asmdef
 │   ├── Purchasing/               # Nexenova.Services.Purchasing.asmdef
 │   └── Unified/                  # Nexenova.Services.asmdef — composition root (see below)
-├── Editor/                       # Nexenova.Services.Editor.asmdef (settings inspectors, validators)
+├── Editor/                       # Nexenova.Services.Editor.asmdef — Setup Wizard (Nexenova ▸ Services Setup):
+│   └── Setup/                    #   manifest/registry patcher, settings locator, boot-scene generator, validators
 ├── Tests/
 │   ├── Editor/                   # Nexenova.Services.Tests.Editor.asmdef (EditMode unit tests)
 │   └── Runtime/                  # Nexenova.Services.Tests.Runtime.asmdef (PlayMode integration tests)
