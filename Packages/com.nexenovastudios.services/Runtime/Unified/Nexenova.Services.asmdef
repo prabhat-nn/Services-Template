@@ -25,6 +25,11 @@
             "name": "com.unity.purchasing",
             "expression": "4.0.0",
             "define": "NEX_SERVICES_IAP"
+        },
+        {
+            "name": "com.unity.addressables",
+            "expression": "1.0.0",
+            "define": "NEX_ADDRESSABLES"
         }
     ],
     "noEngineReferences": false

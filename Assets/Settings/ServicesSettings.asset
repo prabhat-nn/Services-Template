@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e8e1c3bbcf0874c89b07b6b1ede6b5, type: 3}
+  m_Name: ServicesSettings
+  m_EditorClassIdentifier: Nexenova.Services.Core::Nexenova.Services.ServicesSettings
+  productionEnvironment: production
+  editorEnvironment: development
+  useEditorEnvironmentInEditor: 1
+  appVersion: 1.0.0
+  androidBundleId: 
+  iosBundleId: 
+  nextSceneName: SampleScene
+  proceedToSceneOnFailure: 1
+  verboseLogging: 1
+  enableEconomy: 1
+  enableCloudSave: 1
+  enableRemoteConfig: 1
+  enablePurchasing: 1
+  maxRetryAttempts: 3
+  retryBaseDelaySeconds: 1
+  retryMaxDelaySeconds: 8
+  operationTimeoutSeconds: 10
+  signInMode: 1
+  googlePlayGamesPluginVersion: 2.1.0
+  admobAppIdAndroid: 
+  admobAppIdIos: 
+  cloudSaveKeyPrefix: nex
+  saveSchemaVersion: 1
+  maxSavePayloadKb: 200
+  maxGrantPerCall: 100000
+  maxGrantedPerMinute: 500000
+  defaultIapCatalog: []
+  useLocalReceiptValidation: 1

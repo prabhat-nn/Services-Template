@@ -5,9 +5,11 @@ using Nexenova.Services.Core;
 using Nexenova.Services.Economy;
 using Nexenova.Services.RemoteConfig;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using VContainer;
 using VContainer.Unity;
+#if NEX_ADDRESSABLES
+using UnityEngine.AddressableAssets;
+#endif
 #if NEX_SERVICES_IAP
 using Nexenova.Services.Purchasing;
 #endif
@@ -22,7 +24,7 @@ namespace Nexenova.Services
     /// </summary>
     public class ServicesLifetimeScope : LifetimeScope
     {
-        /// <summary>Addressables fallback key used when no settings asset is assigned.</summary>
+        /// <summary>Addressables fallback key used when no settings asset is assigned (requires com.unity.addressables).</summary>
         public const string SettingsAddressableKey = "Nexenova/ServicesSettings";
 
         [SerializeField] private ServicesSettings? settings;
@@ -73,6 +75,7 @@ namespace Nexenova.Services
             if (settings != null)
                 return settings;
 
+#if NEX_ADDRESSABLES
             try
             {
                 var handle = Addressables.LoadAssetAsync<ServicesSettings>(SettingsAddressableKey);
@@ -83,6 +86,9 @@ namespace Nexenova.Services
             {
                 return null;
             }
+#else
+            return null;
+#endif
         }
     }
 }
