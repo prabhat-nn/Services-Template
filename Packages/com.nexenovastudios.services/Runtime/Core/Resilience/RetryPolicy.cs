@@ -48,7 +48,9 @@ namespace Nexenova.Services.Core
                 ct.ThrowIfCancellationRequested();
 
                 using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-                timeoutCts.CancelAfterSlim(_attemptTimeout);
+                // Keep the timer handle and stop it before the CTS is disposed — a timer
+                // firing on a disposed source would raise an unobserved exception later.
+                var timeoutTimer = timeoutCts.CancelAfterSlim(_attemptTimeout);
 
                 try
                 {
@@ -63,6 +65,10 @@ namespace Nexenova.Services.Core
                     result = ServiceResult<T>.Failure(
                         ServiceErrorCode.Timeout,
                         $"{operationName} timed out after {_attemptTimeout.TotalSeconds:0.#}s (attempt {attempt + 1}/{_maxAttempts}).");
+                }
+                finally
+                {
+                    timeoutTimer.Dispose();
                 }
 
                 if (result.IsSuccess || !result.Error.IsRetryable)

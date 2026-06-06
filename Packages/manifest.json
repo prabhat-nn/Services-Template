@@ -8,12 +8,15 @@
         "jp.hadashikick.vcontainer",
         "com.google.play.games",
         "com.google.external-dependency-manager",
-        "com.lupidan.apple-signin-unity"
+        "com.lupidan.apple-signin-unity",
+        "com.gitamend.improvedtimers"
       ]
     }
   ],
   "dependencies": {
     "com.cysharp.unitask": "2.5.11",
+    "com.gitamend.improvedtimers": "1.0.2",
+    "com.gitamend.unityutils": "https://github.com/adammyhre/Unity-Utils.git",
     "com.google.external-dependency-manager": "1.2.187",
     "com.google.play.games": "2.1.0",
     "com.lupidan.apple-signin-unity": "1.5.0",

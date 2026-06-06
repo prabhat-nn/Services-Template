@@ -26,6 +26,7 @@ namespace Nexenova.Services.Core
         private readonly UniTaskCompletionSource _readySource = new();
 
         private UniTask<ServiceResult<Unit>>? _inFlight;
+        private ServiceError? _bootError;
 
         public ServicesState State { get; private set; } = ServicesState.NotStarted;
         public IReadOnlyList<string> FailedModules => _failedModules;
@@ -57,7 +58,10 @@ namespace Nexenova.Services.Core
         {
             if (State is ServicesState.Ready or ServicesState.Degraded)
                 return;
-            await _readySource.Task.AttachExternalCancellation(ct);
+            if (State != ServicesState.Failed)
+                await _readySource.Task.AttachExternalCancellation(ct);
+            if (State == ServicesState.Failed)
+                throw new InvalidOperationException($"Services boot failed: {_bootError}");
         }
 
         private async UniTask<ServiceResult<Unit>> RunAsync(CancellationToken ct)
@@ -134,8 +138,11 @@ namespace Nexenova.Services.Core
         {
             State = ServicesState.Failed;
             _failedModules.Add(moduleName);
+            _bootError = error;
             _logger.Error(Tag, $"Boot failed at '{moduleName}': {error}", error.Cause);
-            _readySource.TrySetException(new InvalidOperationException($"Services boot failed at '{moduleName}': {error}"));
+            // Complete (not fault) the ready task: an unawaited faulted UniTask would surface
+            // as an unobserved exception at GC. WaitUntilReadyAsync throws based on State.
+            _readySource.TrySetResult();
             return ServiceResult.Fail(error);
         }
     }
