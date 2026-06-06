@@ -30,12 +30,13 @@ namespace Nexenova.Services.Editor
 
     /// <summary>
     /// Reads and patches the consuming project's Packages/manifest.json:
-    /// OpenUPM scoped registry, optional package dependencies, and UPM re-resolution.
+    /// optional package dependencies and UPM re-resolution. The OpenUPM scoped
+    /// registry (needed only for Google Play Games) is never written automatically —
+    /// teams add it manually per SETUP.md.
     /// </summary>
     public static class ManifestPatcher
     {
         public const string RegistryUrl = "https://package.openupm.com";
-        public const string RegistryName = "package.openupm.com";
 
         public static readonly string[] RequiredScopes =
         {
@@ -72,42 +73,6 @@ namespace Nexenova.Services.Editor
             return missingScopes.Length == 0;
         }
 
-        public static JObject ApplyOpenUpmRegistry(JObject manifest)
-        {
-            if (manifest["scopedRegistries"] is not JArray registries)
-            {
-                registries = new JArray();
-                manifest["scopedRegistries"] = registries;
-            }
-
-            var registry = FindOpenUpmRegistry(manifest);
-            if (registry == null)
-            {
-                registry = new JObject
-                {
-                    ["name"] = RegistryName,
-                    ["url"] = RegistryUrl,
-                    ["scopes"] = new JArray(),
-                };
-                registries.Add(registry);
-            }
-
-            if (registry["scopes"] is not JArray scopes)
-            {
-                scopes = new JArray();
-                registry["scopes"] = scopes;
-            }
-
-            var present = scopes.Select(s => s.ToString()).ToHashSet(StringComparer.Ordinal);
-            foreach (var scope in RequiredScopes)
-            {
-                if (!present.Contains(scope))
-                    scopes.Add(scope);
-            }
-
-            return manifest;
-        }
-
         public static JObject ApplyDependency(JObject manifest, string id, string version)
         {
             if (manifest["dependencies"] is not JObject dependencies)
@@ -137,16 +102,9 @@ namespace Nexenova.Services.Editor
             return HasDependency(Load(), id);
         }
 
-        public static void EnsureOpenUpmRegistry()
-        {
-            Save(ApplyOpenUpmRegistry(Load()));
-            Client.Resolve();
-        }
-
         public static void InstallOptional(OptionalPackage package)
         {
-            var manifest = ApplyOpenUpmRegistry(Load());
-            ApplyDependency(manifest, package.Id, package.Version);
+            var manifest = ApplyDependency(Load(), package.Id, package.Version);
             if (package.CompanionId != null)
                 ApplyDependency(manifest, package.CompanionId, package.CompanionVersion!);
             Save(manifest);

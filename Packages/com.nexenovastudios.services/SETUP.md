@@ -5,7 +5,7 @@ Get Authentication (anonymous + GPGS/Apple), Economy, Cloud Save, Remote Config 
 > **Repository:** https://github.com/prabhat-nn/Services-Template
 > **Install (UPM git URL):**
 > ```
-> https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.2.0
+> https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.3.0
 > ```
 > Requires UniTask + VContainer in the manifest first — see step 1. Bump the `#v…` tag to take new releases.
 
@@ -22,7 +22,7 @@ All third-party packages install via **pinned git URLs** (no registry, no "missi
 ```json
 "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.11",
 "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.18.0",
-"com.nexenovastudios.services": "https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.2.0"
+"com.nexenovastudios.services": "https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.3.0"
 ```
 
 UGS packages (Authentication, Economy, Cloud Save, Remote Config, Newtonsoft) resolve automatically from the Unity registry.
@@ -37,7 +37,7 @@ Optional per-game packages (or use the Setup Wizard toggles after install):
 "com.gitamend.unityutils": "https://github.com/adammyhre/Unity-Utils.git"
 ```
 
-**Google Play Games is the one exception** — it ships no git-installable package, so it needs the OpenUPM registry (the wizard's GPGS toggle adds both automatically):
+**Google Play Games is the one exception** — it ships no git-installable package, so it resolves from the OpenUPM registry. **Add the registry manually** (nothing in the template or wizard writes it for you; the wizard's GPGS toggle refuses until it exists):
 
 ```json
 "scopedRegistries": [
@@ -46,7 +46,7 @@ Optional per-game packages (or use the Setup Wizard toggles after install):
 "dependencies": { "com.google.play.games": "2.1.0" }
 ```
 
-GPGS will show a benign "missing signature" warning — Unity only signs its own registry's packages; it is expected and safe.
+GPGS will show a benign "missing signature" warning — Unity only signs its own registry's packages; it is expected and safe. Skip all of this if the game doesn't use Google Play Games sign-in.
 
 ## 2. Link the project to UGS
 

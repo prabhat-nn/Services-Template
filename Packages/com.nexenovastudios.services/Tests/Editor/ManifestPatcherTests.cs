@@ -1,5 +1,4 @@
 #nullable enable
-using System.Linq;
 using Newtonsoft.Json.Linq;
 using Nexenova.Services.Editor;
 using NUnit.Framework;
@@ -11,52 +10,25 @@ namespace Nexenova.Services.Tests
         private static JObject EmptyManifest() => JObject.Parse("{\"dependencies\":{\"com.unity.ugui\":\"2.0.0\"}}");
 
         [Test]
-        public void ApplyOpenUpmRegistry_WhenAbsent_AddsRegistryWithAllScopes()
+        public void HasOpenUpmRegistry_WhenAbsent_ReportsAllScopesMissing()
         {
-            var manifest = ManifestPatcher.ApplyOpenUpmRegistry(EmptyManifest());
-
-            Assert.IsTrue(ManifestPatcher.HasOpenUpmRegistry(manifest, out var missing));
-            Assert.IsEmpty(missing);
-            var registry = (JObject)((JArray)manifest["scopedRegistries"]!)[0];
-            Assert.AreEqual(ManifestPatcher.RegistryUrl, registry["url"]!.ToString());
+            Assert.IsFalse(ManifestPatcher.HasOpenUpmRegistry(EmptyManifest(), out var missing));
+            CollectionAssert.AreEquivalent(ManifestPatcher.RequiredScopes, missing);
         }
 
         [Test]
-        public void ApplyOpenUpmRegistry_WhenPartialScopes_MergesMissingOnes()
+        public void HasOpenUpmRegistry_WhenPresentWithScopes_ReturnsTrue()
         {
             var manifest = EmptyManifest();
             manifest["scopedRegistries"] = new JArray(new JObject
             {
                 ["name"] = "package.openupm.com",
                 ["url"] = ManifestPatcher.RegistryUrl,
-                ["scopes"] = new JArray("com.cysharp.unitask", "com.someone.custom"),
+                ["scopes"] = new JArray(ManifestPatcher.RequiredScopes),
             });
 
-            ManifestPatcher.ApplyOpenUpmRegistry(manifest);
-
-            Assert.IsTrue(ManifestPatcher.HasOpenUpmRegistry(manifest, out _));
-            var scopes = ((JArray)((JObject)((JArray)manifest["scopedRegistries"]!)[0])["scopes"]!)
-                .Select(s => s.ToString()).ToArray();
-            CollectionAssert.Contains(scopes, "com.someone.custom");
-            CollectionAssert.IsSubsetOf(ManifestPatcher.RequiredScopes, scopes);
-        }
-
-        [Test]
-        public void ApplyOpenUpmRegistry_WhenComplete_IsIdempotent()
-        {
-            var manifest = ManifestPatcher.ApplyOpenUpmRegistry(EmptyManifest());
-            var before = manifest.ToString();
-
-            ManifestPatcher.ApplyOpenUpmRegistry(manifest);
-
-            Assert.AreEqual(before, manifest.ToString());
-        }
-
-        [Test]
-        public void HasOpenUpmRegistry_WhenAbsent_ReportsAllScopesMissing()
-        {
-            Assert.IsFalse(ManifestPatcher.HasOpenUpmRegistry(EmptyManifest(), out var missing));
-            CollectionAssert.AreEquivalent(ManifestPatcher.RequiredScopes, missing);
+            Assert.IsTrue(ManifestPatcher.HasOpenUpmRegistry(manifest, out var missing));
+            Assert.IsEmpty(missing);
         }
 
         [Test]

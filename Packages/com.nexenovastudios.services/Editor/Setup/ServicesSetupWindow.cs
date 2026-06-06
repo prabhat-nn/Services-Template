@@ -42,28 +42,12 @@ namespace Nexenova.Services.Editor
                 _installed[package.Id] = ManifestPatcher.IsPackageInstalled(package.Id);
 
             _steps.Clear();
-            _steps.Add(BuildRegistryStep());
             _steps.Add(BuildSettingsStep());
             _steps.Add(BuildBootSceneStep());
             _steps.Add(BuildNextSceneStep());
             _steps.Add(BuildUgsLinkStep());
             _steps.Add(BuildPurchasingStep());
             Repaint();
-        }
-
-        private StepResult BuildRegistryStep()
-        {
-            var ok = ManifestPatcher.HasOpenUpmRegistry(ManifestPatcher.Load(), out var missing);
-            if (ok)
-                return new StepResult(SetupStatus.Ok, "OpenUPM registry (GPGS)", "Registry present with required scopes.");
-
-            var gpgsInstalled = _installed.TryGetValue("com.google.play.games", out var value) && value;
-            return gpgsInstalled
-                ? new StepResult(SetupStatus.Missing, "OpenUPM registry (GPGS)",
-                    $"GPGS is installed but the registry is missing scopes: {string.Join(", ", missing)}", "Fix",
-                    () => { ManifestPatcher.EnsureOpenUpmRegistry(); RefreshAll(); })
-                : new StepResult(SetupStatus.Ok, "OpenUPM registry (GPGS)",
-                    "Not needed — only Google Play Games resolves from OpenUPM (added automatically with its toggle).");
         }
 
         private StepResult BuildSettingsStep()
@@ -209,7 +193,17 @@ namespace Nexenova.Services.Editor
                 return;
 
             if (toggled)
+            {
+                if (package.Id == "com.google.play.games" &&
+                    !ManifestPatcher.HasOpenUpmRegistry(ManifestPatcher.Load(), out _))
+                {
+                    EditorUtility.DisplayDialog("OpenUPM registry required",
+                        "Google Play Games resolves from the OpenUPM registry. Add the scoped registry to Packages/manifest.json manually (see SETUP.md), then enable this toggle again.",
+                        "OK");
+                    return;
+                }
                 ManifestPatcher.InstallOptional(package);
+            }
             else if (EditorUtility.DisplayDialog("Remove package",
                          $"Remove {package.Id} from this project's manifest?", "Remove", "Cancel"))
                 ManifestPatcher.UninstallOptional(package);
@@ -238,11 +232,7 @@ namespace Nexenova.Services.Editor
             if (!SetupValidators.IsUgsLinked())
                 Debug.LogWarning("[Nexenova.Setup] Link the project to Unity Gaming Services: Project Settings ▸ Services.");
 
-            var gpgsInstalled = _installed.TryGetValue("com.google.play.games", out var installed) && installed;
-            if (gpgsInstalled && !ManifestPatcher.HasOpenUpmRegistry(ManifestPatcher.Load(), out _))
-                ManifestPatcher.EnsureOpenUpmRegistry();
-            else
-                RefreshAll();
+            RefreshAll();
         }
     }
 }

@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "com.cysharp.unitask": {
-      "version": "2.5.11",
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.11",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://package.openupm.com"
+      "hash": "2e993ff18f28c931602a07292df0b0804eebef99"
     },
     "com.gitamend.improvedtimers": {
       "version": "1.0.2",
@@ -22,11 +22,11 @@
       "hash": "ee927cd3f735f5c5b08572b4df5ba2aab03bf5ce"
     },
     "com.google.external-dependency-manager": {
-      "version": "1.2.187",
+      "version": "https://github.com/googlesamples/unity-jar-resolver.git?path=upm",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://package.openupm.com"
+      "hash": "38f31affdc54bf7ed0ffb8b97f3444395912a398"
     },
     "com.google.play.games": {
       "version": "2.1.0",
@@ -403,11 +403,11 @@
       "url": "https://packages.unity.com"
     },
     "jp.hadashikick.vcontainer": {
-      "version": "1.18.0",
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.18.0",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://package.openupm.com"
+      "hash": "6e6972730ce316fab2408f20e7a160aec070e48b"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
