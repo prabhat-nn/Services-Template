@@ -1,6 +1,6 @@
 {
   "name": "com.nexenovastudios.services",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "displayName": "Nexenova Game Services",
   "description": "Reusable Unity Gaming Services integration for hyper-casual and mobile games: Authentication (anonymous, Google Play Games, Apple), Economy, Cloud Save, Remote Config and In-App Purchases. Async-first (UniTask), DI-driven (VContainer), event-decoupled modules.",
   "unity": "6000.0",
