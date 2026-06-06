@@ -1,0 +1,27 @@
+{
+  "name": "com.nexenovastudios.services",
+  "version": "0.1.0",
+  "displayName": "Nexenova Game Services",
+  "description": "Reusable Unity Gaming Services integration for hyper-casual and mobile games: Authentication (anonymous, Google Play Games, Apple), Economy, Cloud Save, Remote Config and In-App Purchases. Async-first (UniTask), DI-driven (VContainer), event-decoupled modules.",
+  "unity": "6000.0",
+  "author": {
+    "name": "Nexenova Studios",
+    "email": "tech@nexenovastudios.com"
+  },
+  "dependencies": {
+    "com.cysharp.unitask": "2.5.11",
+    "jp.hadashikick.vcontainer": "1.18.0",
+    "com.unity.services.authentication": "3.6.1",
+    "com.unity.services.economy": "3.5.3",
+    "com.unity.services.cloudsave": "3.4.0",
+    "com.unity.remote-config": "4.2.5",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "samples": [
+    {
+      "displayName": "Demo Boot Flow",
+      "description": "Boot scene with ServicesLifetimeScope + ServicesBootController and a demo settings asset.",
+      "path": "Samples~/Demo"
+    }
+  ]
+}

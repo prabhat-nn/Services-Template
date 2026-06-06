@@ -1,16 +1,41 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.cysharp.unitask",
+        "jp.hadashikick.vcontainer",
+        "com.google.play.games",
+        "com.google.external-dependency-manager",
+        "com.lupidan.apple-signin-unity"
+      ]
+    }
+  ],
   "dependencies": {
+    "com.cysharp.unitask": "2.5.11",
+    "com.google.external-dependency-manager": "1.2.187",
+    "com.google.play.games": "2.1.0",
+    "com.lupidan.apple-signin-unity": "1.5.0",
+    "com.unity.addressables": "2.11.1",
+    "com.unity.ai.assistant": "2.9.0-pre.2",
     "com.unity.ai.navigation": "2.0.9",
     "com.unity.collab-proxy": "2.11.2",
     "com.unity.ide.rider": "3.0.38",
     "com.unity.ide.visualstudio": "2.0.26",
     "com.unity.inputsystem": "1.18.0",
     "com.unity.multiplayer.center": "1.0.1",
+    "com.unity.purchasing": "4.13.2",
+    "com.unity.remote-config": "4.2.5",
     "com.unity.render-pipelines.universal": "17.3.0",
+    "com.unity.services.authentication": "3.6.1",
+    "com.unity.services.cloudsave": "3.4.0",
+    "com.unity.services.economy": "3.5.3",
     "com.unity.test-framework": "1.6.0",
     "com.unity.timeline": "1.8.10",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.9",
+    "jp.hadashikick.vcontainer": "1.18.0",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.ai": "1.0.0",

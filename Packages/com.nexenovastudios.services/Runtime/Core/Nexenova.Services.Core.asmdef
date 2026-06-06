@@ -1,0 +1,19 @@
+{
+    "name": "Nexenova.Services.Core",
+    "rootNamespace": "Nexenova.Services.Core",
+    "references": [
+        "UniTask",
+        "VContainer",
+        "Unity.Services.Core",
+        "Unity.Services.Core.Environments"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

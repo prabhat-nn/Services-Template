@@ -1,0 +1,31 @@
+{
+    "name": "Nexenova.Services",
+    "rootNamespace": "Nexenova.Services",
+    "references": [
+        "UniTask",
+        "VContainer",
+        "Nexenova.Services.Core",
+        "Nexenova.Services.Authentication",
+        "Nexenova.Services.Economy",
+        "Nexenova.Services.CloudSave",
+        "Nexenova.Services.RemoteConfig",
+        "Nexenova.Services.Purchasing",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.purchasing",
+            "expression": "4.0.0",
+            "define": "NEX_SERVICES_IAP"
+        }
+    ],
+    "noEngineReferences": false
+}

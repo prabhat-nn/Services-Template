@@ -1,0 +1,33 @@
+{
+    "name": "Nexenova.Services.Authentication",
+    "rootNamespace": "Nexenova.Services.Authentication",
+    "references": [
+        "UniTask",
+        "VContainer",
+        "Nexenova.Services.Core",
+        "Unity.Services.Core",
+        "Unity.Services.Authentication",
+        "Google.Play.Games",
+        "AppleAuth"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.google.play.games",
+            "expression": "2.0.0",
+            "define": "NEX_GPGS"
+        },
+        {
+            "name": "com.lupidan.apple-signin-unity",
+            "expression": "1.0.0",
+            "define": "NEX_APPLE_SIGNIN"
+        }
+    ],
+    "noEngineReferences": false
+}

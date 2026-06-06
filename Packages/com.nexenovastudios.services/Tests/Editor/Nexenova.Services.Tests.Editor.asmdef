@@ -1,0 +1,39 @@
+{
+    "name": "Nexenova.Services.Tests.Editor",
+    "rootNamespace": "Nexenova.Services.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "UniTask",
+        "VContainer",
+        "Unity.Services.Core",
+        "Nexenova.Services.Core",
+        "Nexenova.Services.Authentication",
+        "Nexenova.Services.Economy",
+        "Nexenova.Services.CloudSave",
+        "Nexenova.Services.RemoteConfig",
+        "Nexenova.Services.Purchasing"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.purchasing",
+            "expression": "4.0.0",
+            "define": "NEX_SERVICES_IAP"
+        }
+    ],
+    "noEngineReferences": false
+}

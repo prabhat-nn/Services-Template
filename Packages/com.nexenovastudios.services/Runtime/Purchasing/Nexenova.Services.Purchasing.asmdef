@@ -1,0 +1,29 @@
+{
+    "name": "Nexenova.Services.Purchasing",
+    "rootNamespace": "Nexenova.Services.Purchasing",
+    "references": [
+        "UniTask",
+        "VContainer",
+        "Nexenova.Services.Core",
+        "UnityEngine.Purchasing",
+        "UnityEngine.Purchasing.Security",
+        "UnityEngine.Purchasing.Stores"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "NEX_SERVICES_IAP"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.purchasing",
+            "expression": "4.0.0",
+            "define": "NEX_SERVICES_IAP"
+        }
+    ],
+    "noEngineReferences": false
+}
