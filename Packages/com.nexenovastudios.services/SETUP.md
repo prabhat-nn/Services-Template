@@ -2,6 +2,13 @@
 
 Get Authentication (anonymous + GPGS/Apple), Economy, Cloud Save, Remote Config and IAP running in a hyper-casual game in ~15 minutes.
 
+> **Repository:** https://github.com/prabhat-nn/Services-Template
+> **Install (UPM git URL):**
+> ```
+> https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.2.0
+> ```
+> Requires UniTask + VContainer in the manifest first — see step 1. Bump the `#v…` tag to take new releases.
+
 ## ⚡ Fast path: the Setup Wizard
 
 Once the package is installed (step 1 below), open **Nexenova ▸ Services Setup** and click **Run Full Setup**. It creates the settings asset, generates the boot scene at build index 0, wires `nextSceneName` to your previous first scene, validates the UGS link, and manages optional packages (IAP, GPGS, Apple sign-in, Timers, Utils) via checkboxes. The manual steps below remain as reference and for CI/scripted setups.
