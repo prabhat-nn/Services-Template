@@ -28,13 +28,6 @@
       "dependencies": {},
       "hash": "38f31affdc54bf7ed0ffb8b97f3444395912a398"
     },
-    "com.google.play.games": {
-      "version": "2.1.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://package.openupm.com"
-    },
     "com.lupidan.apple-signin-unity": {
       "version": "1.5.0",
       "depth": 0,
