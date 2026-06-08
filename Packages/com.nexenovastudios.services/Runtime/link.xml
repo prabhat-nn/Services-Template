@@ -1,0 +1,25 @@
+<!--
+  Protects the Nexenova service assemblies from IL2CPP managed-code stripping.
+
+  Service types (EventBus, AuthService, EconomyService, the SDK adapters, etc.)
+  are constructed by VContainer through reflection. The IL2CPP static analyzer
+  cannot see those reflective constructor calls, so on a stripped player build it
+  removes the constructors — producing, at runtime, errors such as:
+
+    VContainerException: Type does not found injectable constructor, type: EventBus
+      at VContainer.Internal.TypeAnalyzer.Analyze (System.Type type)
+      at VContainer.Unity.LifetimeScope.Build ()
+
+  which aborts the whole container build and leaves the boot scene stuck. The
+  code works in the Editor (Mono, no stripping) but fails on device. Preserving
+  these assemblies keeps the reflectively-resolved members intact.
+-->
+<linker>
+  <assembly fullname="Nexenova.Services.Core" preserve="all" />
+  <assembly fullname="Nexenova.Services.Authentication" preserve="all" />
+  <assembly fullname="Nexenova.Services.Economy" preserve="all" />
+  <assembly fullname="Nexenova.Services.CloudSave" preserve="all" />
+  <assembly fullname="Nexenova.Services.RemoteConfig" preserve="all" />
+  <assembly fullname="Nexenova.Services.Purchasing" preserve="all" />
+  <assembly fullname="Nexenova.Services" preserve="all" />
+</linker>
