@@ -27,7 +27,25 @@ namespace Nexenova.Services.Authentication
 
     internal sealed class AuthenticationSdk : IAuthenticationSdk, IDisposable
     {
-        private IAuthenticationService Sdk => AuthenticationService.Instance;
+        // Accessing AuthenticationService.Instance throws until UnityServices.InitializeAsync()
+        // has completed. This adapter is constructed by the DI container during the synchronous
+        // container build (before initialization runs), so the UGS events are hooked lazily on
+        // first real use — which only happens after the boot sequence has initialized UGS.
+        private IAuthenticationService Sdk
+        {
+            get
+            {
+                var instance = AuthenticationService.Instance;
+                if (!_hooked)
+                {
+                    _hooked = true;
+                    instance.SignedIn += OnSignedIn;
+                    instance.SignedOut += OnSignedOut;
+                    instance.Expired += OnExpired;
+                }
+                return instance;
+            }
+        }
 
         public bool IsSignedIn => Sdk.IsSignedIn;
         public bool SessionTokenExists => Sdk.SessionTokenExists;
@@ -38,14 +56,6 @@ namespace Nexenova.Services.Authentication
         public event Action? Expired;
 
         private bool _hooked;
-
-        public AuthenticationSdk()
-        {
-            Sdk.SignedIn += OnSignedIn;
-            Sdk.SignedOut += OnSignedOut;
-            Sdk.Expired += OnExpired;
-            _hooked = true;
-        }
 
         public UniTask SignInAnonymouslyAsync(CancellationToken ct) =>
             Sdk.SignInAnonymouslyAsync().AsUniTask().AttachExternalCancellation(ct);
@@ -72,9 +82,11 @@ namespace Nexenova.Services.Authentication
         {
             if (!_hooked) return;
             _hooked = false;
-            Sdk.SignedIn -= OnSignedIn;
-            Sdk.SignedOut -= OnSignedOut;
-            Sdk.Expired -= OnExpired;
+            // Use the raw singleton (not the hooking Sdk getter, which would re-subscribe).
+            var instance = AuthenticationService.Instance;
+            instance.SignedIn -= OnSignedIn;
+            instance.SignedOut -= OnSignedOut;
+            instance.Expired -= OnExpired;
         }
     }
 }
