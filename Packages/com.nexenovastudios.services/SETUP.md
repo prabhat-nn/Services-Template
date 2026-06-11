@@ -83,6 +83,7 @@ GPGS will show a benign "missing signature" warning — Unity only signs its own
 - **Android (GPGS)**: Play Console → set up Play Games Services, add OAuth credentials. Unity: **Window ▸ Google Play Games ▸ Setup ▸ Android Setup** — paste resources XML + **web client ID** (required for the UGS token exchange). Dashboard: Authentication ▸ add **Google Play Games** provider (client ID + secret).
 - **iOS (Apple)**: Dashboard: Authentication ▸ add **Sign in with Apple** provider (bundle ID). The plugin adds the entitlement to the Xcode project.
 - Editor and unconfigured platforms automatically fall back to **anonymous** — nothing breaks.
+- **Sign-in mode** (settings asset ▸ Authentication ▸ `signInMode`): `AnonymousOnly`; `PlatformWithAnonymousFallback` (try GPGS/Apple, anonymous on failure); `PlatformRequired` (GPGS/Apple only — never creates an anonymous account, so all data is tied to the platform account; auth fails if the player declines, and `proceedToSceneOnFailure` decides whether the game then blocks at boot or runs unsynced; the editor still uses anonymous).
 
 ## 7. In-App Purchases
 

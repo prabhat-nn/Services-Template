@@ -7,8 +7,9 @@ using Nexenova.Services.Core;
 namespace Nexenova.Services.Authentication
 {
     /// <summary>
-    /// Player identity module. Boot flow: cached session when available; otherwise platform
-    /// sign-in (GPGS/Apple) with anonymous fallback, or anonymous-only — per AuthOptions.
+    /// Player identity module. Boot flow per AuthOptions.SignInMode: anonymous-only; platform
+    /// sign-in (GPGS/Apple) with anonymous fallback (cached session reused when available);
+    /// or platform-required (always a fresh platform exchange, never anonymous).
     /// On session expiry it re-signs-in automatically and republishes events.
     /// </summary>
     internal sealed class AuthService : IAuthService, IServiceModule, IDisposable
@@ -55,7 +56,17 @@ namespace Nexenova.Services.Authentication
         {
             ServiceResult<Unit> result;
 
-            if (_options.SignInMode == PlatformSignInMode.PlatformWithAnonymousFallback &&
+            if (_options.SignInMode == PlatformSignInMode.PlatformRequired && _platform.IsSupported)
+            {
+                // Always exchange a fresh platform token (silent for returning players) so the
+                // UGS account is guaranteed to be the platform account. The cached session is
+                // deliberately ignored: it could belong to an anonymous account from a previous
+                // install/mode, and the platform exchange resolves to the right account anyway.
+                result = await SignInWithPlatformAsync(ct);
+                if (result.IsFailure)
+                    _logger.Warning(Tag, $"Platform sign-in failed ({result.Error.Code}) and mode is PlatformRequired — staying signed out.");
+            }
+            else if (_options.SignInMode == PlatformSignInMode.PlatformWithAnonymousFallback &&
                 _platform.IsSupported &&
                 !_sdk.SessionTokenExists)
             {
@@ -68,6 +79,8 @@ namespace Nexenova.Services.Authentication
             }
             else
             {
+                if (_options.SignInMode == PlatformSignInMode.PlatformRequired)
+                    _logger.Warning(Tag, "PlatformRequired but no platform provider on this platform/build — using anonymous sign-in.");
                 result = await SignInAnonymouslyAsync(ct);
             }
 
@@ -218,7 +231,12 @@ namespace Nexenova.Services.Authentication
             UniTask.Void(async () =>
             {
                 _logger.Warning(Tag, "Session expired — attempting automatic re-sign-in.");
-                await SignInAnonymouslyAsync(CancellationToken.None);
+                // In PlatformRequired mode an expired session must not degrade into a fresh
+                // anonymous account — go back through the platform exchange instead.
+                if (_options.SignInMode == PlatformSignInMode.PlatformRequired && _platform.IsSupported)
+                    await SignInWithPlatformAsync(CancellationToken.None);
+                else
+                    await SignInAnonymouslyAsync(CancellationToken.None);
             });
         }
 

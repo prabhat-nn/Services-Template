@@ -10,6 +10,15 @@ namespace Nexenova.Services
         AnonymousOnly,
         /// <summary>Try GPGS (Android) / Apple (iOS) first; fall back to anonymous on failure or unsupported platform.</summary>
         PlatformWithAnonymousFallback,
+        /// <summary>
+        /// GPGS (Android) / Apple (iOS) sign-in only — an anonymous account is never created,
+        /// so all player data is guaranteed to live on the platform account. Auth (and boot,
+        /// being a required module) fails when the player declines or sign-in is unavailable;
+        /// pair with <c>proceedToSceneOnFailure</c> to choose between blocking and playing
+        /// unsynced. Platforms without a provider (the editor, builds missing the plugin)
+        /// still use anonymous so development keeps working.
+        /// </summary>
+        PlatformRequired,
     }
 
     /// <summary>
