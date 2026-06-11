@@ -16,7 +16,10 @@ namespace Nexenova.Services.Authentication
     {
         private readonly IServiceLogger _logger;
 
-        public bool IsSupported => true;
+        // This class compiles in the editor too when the build target is Android
+        // (UNITY_ANDROID is defined there), but GPGS itself only works on device —
+        // report unsupported so auth modes route the editor to anonymous sign-in.
+        public bool IsSupported => !UnityEngine.Application.isEditor;
         public PlatformProvider Provider => PlatformProvider.GooglePlayGames;
 
         public GpgsSignInProvider(IServiceLogger logger)
