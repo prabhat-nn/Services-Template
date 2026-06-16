@@ -8,11 +8,11 @@
       "hash": "2e993ff18f28c931602a07292df0b0804eebef99"
     },
     "com.gitamend.improvedtimers": {
-      "version": "1.0.2",
+      "version": "https://github.com/adammyhre/Unity-Improved-Timers.git",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://package.openupm.com"
+      "hash": "0c93083e7968e5d2a7746b38d6d5a477d2b5b3ac"
     },
     "com.gitamend.unityutils": {
       "version": "https://github.com/adammyhre/Unity-Utils.git",

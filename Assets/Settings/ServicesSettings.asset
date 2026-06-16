@@ -19,7 +19,7 @@ MonoBehaviour:
   androidBundleId: 
   iosBundleId: 
   nextSceneName: SampleScene
-  proceedToSceneOnFailure: 1
+  proceedToSceneOnFailure: 0
   verboseLogging: 1
   enableEconomy: 1
   enableCloudSave: 1
@@ -29,7 +29,7 @@ MonoBehaviour:
   retryBaseDelaySeconds: 1
   retryMaxDelaySeconds: 8
   operationTimeoutSeconds: 10
-  signInMode: 1
+  signInMode: 2
   googlePlayGamesPluginVersion: 2.1.0
   admobAppIdAndroid: 
   admobAppIdIos: 

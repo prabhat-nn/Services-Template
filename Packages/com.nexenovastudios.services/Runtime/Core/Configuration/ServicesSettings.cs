@@ -45,8 +45,8 @@ namespace Nexenova.Services
         [Header("Boot")]
         [Tooltip("Scene loaded by ServicesBootController once services reach Ready/Degraded. Leave empty to disable scene loading.")]
         [SerializeField] private string nextSceneName = "Main";
-        [Tooltip("Hyper-casual default: keep the game playable and load the next scene even if boot fails entirely.")]
-        [SerializeField] private bool proceedToSceneOnFailure = true;
+        [Tooltip("When false, the boot scene only advances after a successful boot — so with PlatformRequired sign-in, platform sign-in (GPGS on Android, Apple on iOS) is mandatory to reach the next scene. Set true to keep the game playable even when boot fails (hyper-casual offline).")]
+        [SerializeField] private bool proceedToSceneOnFailure = false;
         [SerializeField] private bool verboseLogging = true;
 
         [Header("Modules")]
@@ -62,7 +62,7 @@ namespace Nexenova.Services
         [SerializeField] private float operationTimeoutSeconds = 10f;
 
         [Header("Authentication")]
-        [SerializeField] private PlatformSignInMode signInMode = PlatformSignInMode.PlatformWithAnonymousFallback;
+        [SerializeField] private PlatformSignInMode signInMode = PlatformSignInMode.PlatformRequired;
         [Tooltip("Informational: the Google Play Games plugin version this template was built against.")]
         [SerializeField] private string googlePlayGamesPluginVersion = "2.1.0";
 

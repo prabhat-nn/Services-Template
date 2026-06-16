@@ -5,7 +5,7 @@ Get Authentication (anonymous + GPGS/Apple), Economy, Cloud Save, Remote Config 
 > **Repository:** https://github.com/prabhat-nn/Services-Template
 > **Install (UPM git URL):**
 > ```
-> https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.3.0
+> https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.5.0
 > ```
 > Requires UniTask + VContainer in the manifest first — see step 1. Bump the `#v…` tag to take new releases.
 
@@ -22,7 +22,7 @@ All third-party packages install via **pinned git URLs** (no registry, no "missi
 ```json
 "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.11",
 "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.18.0",
-"com.nexenovastudios.services": "https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.3.0"
+"com.nexenovastudios.services": "https://github.com/prabhat-nn/Services-Template.git?path=Packages/com.nexenovastudios.services#v1.5.0"
 ```
 
 UGS packages (Authentication, Economy, Cloud Save, Remote Config, Newtonsoft) resolve automatically from the Unity registry.
@@ -70,7 +70,7 @@ GPGS will show a benign "missing signature" warning — Unity only signs its own
 
 1. Create a `Boot` scene, make it **scene 0** in Build Settings.
 2. Empty GameObject → add **`ServicesLifetimeScope`** → assign the settings asset.
-3. Press Play: services initialize (Platform → Auth → Data → IAP), then your next scene loads. Boot failures don't block the game — it proceeds offline/degraded by default.
+3. Press Play: services initialize (Platform → Auth → Data → IAP), then your next scene loads. By default (`signInMode = PlatformRequired`, `proceedToSceneOnFailure = false`) the boot scene advances only after a successful sign-in: on Android that means GPGS, on iOS that means Apple, and on the editor / any platform without a provider it falls back to anonymous (which succeeds, so dev keeps working). Set `proceedToSceneOnFailure = true` if you instead want the game to proceed offline/degraded when boot fails.
 
 ## 5. Dashboard configuration per service
 
@@ -83,7 +83,7 @@ GPGS will show a benign "missing signature" warning — Unity only signs its own
 - **Android (GPGS)**: Play Console → set up Play Games Services, add OAuth credentials. Unity: **Window ▸ Google Play Games ▸ Setup ▸ Android Setup** — paste resources XML + **web client ID** (required for the UGS token exchange). Dashboard: Authentication ▸ add **Google Play Games** provider (client ID + secret).
 - **iOS (Apple)**: Dashboard: Authentication ▸ add **Sign in with Apple** provider (bundle ID). The plugin adds the entitlement to the Xcode project.
 - Editor and unconfigured platforms automatically fall back to **anonymous** — nothing breaks.
-- **Sign-in mode** (settings asset ▸ Authentication ▸ `signInMode`): `AnonymousOnly`; `PlatformWithAnonymousFallback` (try GPGS/Apple, anonymous on failure); `PlatformRequired` (GPGS/Apple only — never creates an anonymous account, so all data is tied to the platform account; auth fails if the player declines, and `proceedToSceneOnFailure` decides whether the game then blocks at boot or runs unsynced; the editor still uses anonymous).
+- **Sign-in mode** (settings asset ▸ Authentication ▸ `signInMode`): `AnonymousOnly`; `PlatformWithAnonymousFallback` (try GPGS/Apple, anonymous on failure); `PlatformRequired` (**template default** — GPGS/Apple only, never creates an anonymous account, so all data is tied to the platform account; auth fails if the player declines, and `proceedToSceneOnFailure` decides whether the game then blocks at boot or runs unsynced; the editor and any platform without a provider still use anonymous). With the template defaults (`PlatformRequired` + `proceedToSceneOnFailure = false`), a successful platform sign-in is the only way past the boot scene on Android (GPGS) and iOS (Apple), while every other platform proceeds on anonymous.
 
 ## 7. In-App Purchases
 
