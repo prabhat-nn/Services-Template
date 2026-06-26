@@ -5,10 +5,10 @@
         "UniTask",
         "VContainer",
         "Nexenova.Services.Core",
-        "UnityEngine.Purchasing",
-        "UnityEngine.Purchasing.Security",
-        "UnityEngine.Purchasing.SecurityCore",
-        "UnityEngine.Purchasing.Stores"
+        "Unity.Purchasing",
+        "Unity.Purchasing.Security",
+        "Unity.Purchasing.SecurityCore",
+        "Unity.Purchasing.Stores"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
