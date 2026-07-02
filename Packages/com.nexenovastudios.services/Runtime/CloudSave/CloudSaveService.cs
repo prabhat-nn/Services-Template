@@ -195,7 +195,7 @@ namespace Nexenova.Services.CloudSave
 
         public async UniTask<ServiceResult<IReadOnlyList<string>>> ListKeysAsync(CancellationToken ct = default)
         {
-            var prefix = _options.KeyPrefix + ".";
+            var prefix = _options.KeyPrefix + "_";  // must match FullKey's separator
             var result = await _retry.ExecuteAsync<IReadOnlyList<string>>("CloudSave.ListKeys", async token =>
             {
                 try
@@ -356,6 +356,8 @@ namespace Nexenova.Services.CloudSave
             return null;
         }
 
-        private string FullKey(string key) => $"{_options.KeyPrefix}.{key}";
+        // UGS Cloud Save keys only allow [A-Za-z0-9-_] — a '.' separator is rejected with a
+        // 400 InvalidArgument, so the namespace join must use '_'.
+        private string FullKey(string key) => $"{_options.KeyPrefix}_{key}";
     }
 }

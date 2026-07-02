@@ -54,10 +54,10 @@ namespace Nexenova.Services.Tests
 
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual("player", saved!.Value.Key);
-            Assert.IsTrue(_sdk.Remote.ContainsKey("nex.player"), "keys must be namespaced");
+            Assert.IsTrue(_sdk.Remote.ContainsKey("nex_player"), "keys must be namespaced");
             Assert.IsEmpty(_cache.Pending, "successful upload must clear the pending flag");
 
-            var envelope = JsonConvert.DeserializeObject<SaveEnvelope>(_sdk.Remote["nex.player"].json, SaveJson.Settings);
+            var envelope = JsonConvert.DeserializeObject<SaveEnvelope>(_sdk.Remote["nex_player"].json, SaveJson.Settings);
             Assert.AreEqual(2, envelope!.SchemaVersion);
         }
 
@@ -103,7 +103,7 @@ namespace Nexenova.Services.Tests
         public async Task LoadAsync_NewerSchema_FailsValidation()
         {
             var envelope = new SaveEnvelope { SchemaVersion = 99, SavedAtUnixMs = 0, PayloadJson = "{}" };
-            _sdk.Remote["nex.player"] = (JsonConvert.SerializeObject(envelope, SaveJson.Settings), "1");
+            _sdk.Remote["nex_player"] = (JsonConvert.SerializeObject(envelope, SaveJson.Settings), "1");
 
             var result = await _service.LoadAsync<PlayerData>("player");
 
@@ -113,7 +113,7 @@ namespace Nexenova.Services.Tests
         [Test]
         public async Task LoadAsync_TamperedData_FailsValidationInsteadOfCrashing()
         {
-            _sdk.Remote["nex.player"] = ("not-an-envelope", "1");
+            _sdk.Remote["nex_player"] = ("not-an-envelope", "1");
 
             var result = await _service.LoadAsync<PlayerData>("player");
 
@@ -140,7 +140,7 @@ namespace Nexenova.Services.Tests
             var result = await _service.DeleteAsync("player");
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.IsFalse(_sdk.Remote.ContainsKey("nex.player"));
+            Assert.IsFalse(_sdk.Remote.ContainsKey("nex_player"));
             Assert.IsFalse(_cache.Data.ContainsKey("player"));
         }
 
@@ -172,7 +172,7 @@ namespace Nexenova.Services.Tests
 
             await service.InitializeAsync(CancellationToken.None);
 
-            Assert.IsTrue(sdk.Remote.ContainsKey("nex.player"), "queued offline write must replay on boot");
+            Assert.IsTrue(sdk.Remote.ContainsKey("nex_player"), "queued offline write must replay on boot");
             Assert.IsEmpty(cache.Pending);
         }
     }
